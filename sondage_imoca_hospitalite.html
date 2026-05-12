@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sondage IMOCA — Hospitalité Partenaires & Loge Route du Rhum</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Georgia', serif;
+    background: #f4f1eb;
+    color: #1a1a1a;
+    line-height: 1.7;
+    padding: 2rem 1rem;
+  }
+
+  .wrapper {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    background: #0b1729;
+    color: white;
+    border-radius: 12px;
+    padding: 2.5rem 2rem 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.03);
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -30px;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.02);
+  }
+  .header-eyebrow {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .header-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: rgba(255,255,255,0.3);
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: normal;
+    color: white;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+  .header p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    max-width: 480px;
+  }
+  .header-meta {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .header-meta span {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+  }
+  .header-meta strong {
+    color: rgba(255,255,255,0.65);
+    font-weight: normal;
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 2.5rem;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #d4cfc4;
+  }
+  .section-tag {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: white;
+    background: #0b1729;
+    border-radius: 4px;
+    padding: 3px 9px;
+    white-space: nowrap;
+  }
+  .section-title {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #555;
+    letter-spacing: 0.02em;
+  }
+
+  /* Cards */
+  .card {
+    background: white;
+    border: 1px solid #e4e0d8;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 0.875rem;
+  }
+  .q-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0.75rem;
+  }
+  .q-num {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    color: #999;
+    min-width: 20px;
+  }
+  .q-type-badge {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    color: #888;
+    background: #f5f3ef;
+    border: 1px solid #e4e0d8;
+    border-radius: 3px;
+    padding: 1px 7px;
+    letter-spacing: 0.03em;
+  }
+  .q-required {
+    color: #c0392b;
+    font-size: 11px;
+    margin-left: auto;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .q-label {
+    font-size: 15px;
+    color: #1a1a1a;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  /* Options */
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border: 1px solid #ece9e2;
+    border-radius: 6px;
+    background: #faf9f7;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: #444;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .option:hover {
+    border-color: #0b1729;
+    background: #f0efe9;
+  }
+  .opt-circle {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    border: 1.5px solid #c8c4bc;
+    flex-shrink: 0;
+    background: white;
+  }
+  .opt-square {
+    width: 16px; height: 16px;
+    border-radius: 3px;
+    border: 1.5px solid #c8c4bc;
+    flex-shrink: 0;
+    background: white;
+  }
+  .opt-other {
+    flex: 1;
+    border: none;
+    border-bottom: 1px solid #c8c4bc;
+    background: transparent;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: #888;
+    outline: none;
+    padding: 0 4px;
+  }
+
+  /* Free text */
+  .free-text {
+    width: 100%;
+    min-height: 70px;
+    border: 1px solid #e4e0d8;
+    border-radius: 6px;
+    background: #faf9f7;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: #888;
+    padding: 10px 12px;
+    resize: vertical;
+    outline: none;
+    line-height: 1.6;
+    font-style: italic;
+  }
+  .free-text:focus {
+    border-color: #0b1729;
+    background: white;
+  }
+
+  /* Conditional */
+  .conditional {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px dashed #e4e0d8;
+  }
+  .conditional-label {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    color: #999;
+    font-style: italic;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Planning box */
+  .planning-box {
+    margin-top: 1rem;
+    background: #f5f3ef;
+    border: 1px solid #e4e0d8;
+    border-left: 3px solid #0b1729;
+    border-radius: 0 6px 6px 0;
+    padding: 0.875rem 1rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    color: #555;
+    line-height: 1.7;
+  }
+  .planning-box strong {
+    color: #1a1a1a;
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+  .slots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 0.5rem 0;
+  }
+  .slot {
+    background: #0b1729;
+    color: white;
+    font-size: 10px;
+    border-radius: 3px;
+    padding: 2px 8px;
+    letter-spacing: 0.03em;
+  }
+
+  /* Divider */
+  .divider {
+    border: none;
+    border-top: 1px solid #e4e0d8;
+    margin: 0.5rem 0 1rem;
+  }
+
+  /* Sub-question */
+  .sub-q {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #ece9e2;
+  }
+  .sub-q-label {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 0.6rem;
+    font-style: italic;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 2rem 0 1rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    color: #aaa;
+    line-height: 1.8;
+  }
+  .footer-logo {
+    font-size: 13px;
+    color: #0b1729;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+  }
+
+  @media (max-width: 480px) {
+    .header { padding: 1.75rem 1.25rem; }
+    .card { padding: 1.25rem; }
+    .header-meta { flex-direction: column; gap: 0.5rem; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-eyebrow">Classe IMOCA — Enquête Teams 2025</div>
+    <h1>Hospitalité partenaires &amp;<br>Loge Route du Rhum</h1>
+    <p>Ce sondage vise à mieux comprendre vos besoins pour accueillir vos partenaires et prospects lors des événements IMOCA, et à calibrer le dispositif de la loge Route du Rhum.</p>
+    <div class="header-meta">
+      <span><strong>19 questions</strong></span>
+      <span><strong>5–8 minutes</strong></span>
+      <span><strong>Réponses confidentielles</strong></span>
+    </div>
+  </div>
+
+  <!-- BLOC 1 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-tag">Bloc 1</span>
+      <span class="section-title">Vos partenaires &amp; la Classe IMOCA</span>
+    </div>
+
+    <div class="card">
+      <div class="q-meta">
+        <span class="q-num">1</span>
+        <span class="q-type-badge">Choix unique</span>
+        <span class="q-required">Obligatoire</span>
+      </div>
+      <div class="q-label">Vos partenaires ont-ils une bonne compréhension de ce qu'est la Classe IMOCA et son championnat ?</div>
+      <div class="options">
+        <label class="option"><span class="opt-circle"></span> Oui, ils connaissent bien</label>
+        <label class="option"><span class="opt-circle"></span> Compréhension partielle</label>
+        <label class="option"><span class="opt-circle"></span> Non, il faut souvent tout expliquer</label>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="q-meta">
+        <span class="q-num">2</span>
+        <span class="q-type-badge">Choix multiples</span>
+      </div>
+      <div class="q-label">Quels arguments IMOCA utilisez-vous le plus souvent pour convaincre un nouveau partenaire ?</div>
+      <div class="options">
+        <label class="option"><span class="opt-square"></span> Audience &amp; retombées médias</label>
+        <label class="option"><span class="opt-square"></span> Valeurs RSE / performance durable</label>
+        <label class="option"><span class="opt-square"></span> Innovation technologique</label>
+        <label class="option"><span class="opt-square"></span> Proximité avec le skipper</label>
+        <label class="option"><span class="opt-square"></span> Storytelling / récit humain</label>
+        <label class="option"><span class="opt-square"></span> Expériences hospitalité uniques</label>
+        <label class="option"><span class="opt-square"></span> Autre : <input class="opt-other" type="text" placeholder="précisez..."></label>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="q-meta">
+        <span class="q-num">3</span>
+        <span class="q-type-badge">Choix unique</span>
+        <span class="q-required">Obligatoire</span>
+      </div>
+      <div class="q-label">L'hospitalité sur les courses est-elle un argument que vous utilisez pour vos partenaires... ?</div>
+      <div class="options">
+        <label class="option"><span class="opt-circle"></span> Avant la signature, pour convaincre</label>
+        <label class="option"><span class="opt-circle"></span> Après la signature, pour fidéliser</label>
+        <label class="option"><span class="opt-circle"></span> Les deux</label>
+        <label class="option"><span class="opt-circle"></span> Pas vraiment utilisé comme argument</label>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="q-meta">
+        <span class="q-num">4</span>
+        <span class="q-type-badge">Choix unique</span>
+      </div>
+      <div class="q-label">Vos partenaires préfèrent-ils être présents à chaque départ de course, ou misent-ils sur un grand événement par an ?</div>
+      <div class="options">
+        <label class="option"><span class="opt-circle"></span> Présents à chaque départ</label>
+        <label class="option"><span class="opt-circle"></span> Un grand événement annuel suffit</label>
+        <label class="option"><span class="opt-circle"></span> Ça dépend du partenaire</label>
+        <label class="option"><span class="opt-circle"></span> Ils ne viennent jamais sur les courses</label>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="q-meta">
+        <span class="q-num">5</span>
+        <span class="q-type-badge">Choix unique</span>
+      </div>
+      <div class="q-label">Vos partenaires recherchent-ils un espace VIP sur l'ensemble des départs de course ?</div>
+      <div class="options">
+        <label class="option"><span class="opt-circle"></span> Oui, c'est une demande récurrente</label>
+        <label class="option"><span class="opt-circle"></span> Ponctuellement, selon l'événement</label>
+        <label class="option"><span class="opt-circle"></span> Non, pas une priorité pour eux</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOC 2 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-tag">Bloc 2</span>
+      <span class="section-title">Événements &amp; formats partenaires</span>
+    </div>
+
+    <div class="card">
+      <div class="q-meta">
+        <span class="q-num">6</span>
+        <span class="q-type-badge">Choix unique</span>
+      </div>
+      <div class="q-label">Les petits-déjeuners sponsors organisés habituellement par la Classe vous semblent-ils adaptés ?</div>
+      <div class="options">
+        <label class="option"><span class="opt-circle"></span> Oui, très bien</label>
+        <label class="option"><span class="opt-circle"></span> Bien mais améliorables</label>
+        <label class="option"><span class="opt-circle"></span> Pas assez adaptés à nos besoins</label>
+        <label class="option"><span class="opt-circle"></span> Je n'y ai jamais participé</label>
+      </div>
+      <div class="conditional">
+        <div class="conditional-label">Si "améliorables" ou "pas assez adaptés" — qu'est-ce qui manque ?</div>
+        <textarea class="free-text" placeholder="Format, timing, contenu, public invité..."></textarea>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="q-meta">
+        <span class="q-num">7</span>
+        <span class="q-type-badge">Choix unique</span>
+      </div>
+      <div class="q-label">Que pensez-vous de l'idée d'un "Club Partenaires IMOCA" — un réseau commun à toutes les équipes pour créer des événements et opportunités partagés ?</div>
+      <div class="options">
+        <label class="option"><span class="opt-circle"></span> Excellente idée, on adhérerait</label>
+        <label class="option"><span class="opt-circle"></span> Intéressant, selon le format</label>
+        <label class="option"><span class="opt-circle"></span> Je préfère garder une approche indépendante</label>
+        <label class="option"><span class="opt-circle"></span> Pas sûr(e) que nos partenaires y voient de la valeur</label>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="q-meta">
+        <span class="q-num">8</span>
+        <span class="q-type-badge">Choix unique</span>
+      </div>
+      <div class="q-label">Intégrer vos partenaires comme "adhérents associés" de la Classe IMOCA — accès à des contenus, événements, données — vous semblerait pertinent ?</div>
+      <div class="options">
+        <label class="option"><span class="opt-circle"></span> Oui, ça renforcerait leur engagement</label>
+        <label class="option"><span class="opt-circle"></span> Pourquoi pas, selon ce que ça inclut</label>
+        <label class="option"><span class="opt-circle"></span> Non, je ne vois pas l'intérêt</label>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="q-meta">
+        <span class="q-num">9</span>
+        <span class="q-type-badge">Choix multiples</span>
+      </div>
+      <div class="q-label">Si la Classe organisait des événements thématiques dans la loge ou sur les villages, quels sujets intéresseraient vos partenaires ?</div>
+      <div class="options">
+        <label class="option"><span class="opt-square"></span> Innovation technologique &amp; foils</label>
+        <label class="option"><span class="opt-square"></span> RSE &amp; performance durable</label>
+        <label class="option"><span class="opt-square"></span> Données scientifiques océan</label>
+        <label class="option"><span class="opt-square"></span> Coulisses techniques (chantier, matériaux)</label>
+        <label class="option"><span class="opt-square"></span> Stratégie de course &amp; météo</label>
+        <label class="option"><span class="opt-square"></span> Portrait &amp; rencontre avec les skippers</label>
+        <label class="option"><span class="opt-square"></span> Autre : <input class="opt-other" type="text" placeholder="précisez..."></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOC 3 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-tag">Bloc 3</span>
+      <span class="section-title">Loge IMOCA — Route du Rhum</span>
+    </div>
+
+    <div class="card">
+      <div class="q-meta">
+        <span class="q-num">10</span>
+        <span class="q-type-badge">Choix unique</span>
+        <span class="q-required">Obligatoire</span>
+      </div>
+      <div class="q-label">Combien de partenaires / prospects comptez-vous inviter sur la Route du Rhum ?</div>
+      <div class="options">
+        <label class="option"><span class="opt-circle"></span> Aucun pour l'instant</label>
+        <label class="option"><span class="opt-circle"></span> 1 à 5 personnes</label>
+        <label class="option"><span class="opt-circle"></span> 5 à 15 personnes</label>
+        <label class="option"><span class="opt-circle"></span> 15 à 30 personnes</label>
+        <label class="option"><span class="opt-circle"></span> Plus de 30 personnes</label>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="q-meta">
+        <span class="q-num">11</span>
+        <span class="q-type-badge">Choix multiples</span>
+        <span class="q-required">Obligatoire</span>
+      </div>
+      <div class="q-label">Sur quels moments votre besoin d'un espace hospitalité est-il le plus fort ?</div>
+      <div class="options">
+        <label class="option"><span class="opt-square"></span> La semaine de préparation (J-7 à J-3)</label>
+        <label class="option"><span class="opt-square"></span> Les 2–3 jours avant le départ</label>
+        <label class="option"><span class="opt-square"></span> La veille du départ</label>
+        <label class="option"><span class="opt-square"></span> Le jour du départ</label>
+        <label class="option"><span class="opt-square"></span> Après le départ (suivi de course)</label>
+      </div>
+      <div class="sub-q">
+        <div class="sub-q-label">Combien de jours au total souhaiteriez-vous accéder à la loge ?</div>
+        <div class="options">
+          <label class="option"><span class="opt-circle"></span> 1 jour (jour du départ uniquement)</label>
+          <label class="option"><span class="opt-circle"></span> 2 à 3 jours</label>
+          <label class="option"><span class="opt-circle"></span> Toute la semaine village</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="q-meta">
+        <span class="q-num">12</span>
+        <span class="q-type-badge">Choix multiples</span>
+        <span class="q-required">Obligatoire</span>
+      </div>
+      <div class="q-label">Dans la loge, qu'est-ce qui est indispensable pour recevoir vos partenaires ?</div>
+      <div class="options">
+        <label class="option"><span class="opt-square"></span> Restauration / traiteur</label>
+        <label class="option"><span class="opt-square"></span> Boissons &amp; bar</label>
+        <label class="option"><span class="opt-square"></span> Espace calme pour échange business</label>
+        <label class="option"><span class="opt-square"></span> Écrans &amp; diffusion live de la course</label>
+        <label class="option"><span class="opt-square"></span> Vue sur le ponton / les bateaux</label>
+        <label class="option"><span class="opt-square"></span> Wifi performant</label>
+        <label class="option"><span class="opt-square"></span> Possibilité de privatiser un créneau</label>
+        <label class="option"><span class="opt-square"></span> Espace présentation (écran, sono)</label>
+        <label class="option"><span class="opt-square"></span> Accès ponton prioritaire depuis la loge</label>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="q-meta">
+        <span class="q-num">13</span>
+        <span class="q-type-badge">Choix unique</span>
+      </div>
+      <div class="q-label">Préférez-vous un espace partagé entre toutes les teams ou des créneaux privatisables par équipe ?</div>
+      <div class="options">
+        <label class="option"><span class="opt-circle"></span> Espace entièrement partagé</label>
+        <label class="option"><span class="opt-circle"></span> Créneaux privatisables (2h / team)</label>
+        <label class="option"><span class="opt-circle"></span> Un mix : lounge partagé + option privatisation</label>
+        <label class="option"><span class="opt-circle"></span> Sans avis</label>
+      </div>
+      <div class="planning-box">
+        <strong>Créneaux disponibles à tarif réduit (2h/team)</strong>
+        <div class="slots">
+          <span class="slot">J-3 matin</span>
+          <span class="slot">J-3 soir</span>
+          <span class="slot">J-2 matin</span>
+          <span class="slot">J-2 soir</span>
+          <span class="slot">J-1 matin</span>
+          <span class="slot">J-1 soir</span>
+          <span class="slot">Jour J</span>
+        </div>
+        Merci d'indiquer vos préférences ci-dessous :
+      </div>
+      <div style="margin-top: 0.75rem;">
+        <textarea class="free-text" placeholder="Créneaux souhaités, contraintes particulières..."></textarea>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="q-meta">
+        <span class="q-num">14</span>
+        <span class="q-type-badge">Choix unique</span>
+      </div>
+      <div class="q-label">Souhaiteriez-vous que la Classe mette à disposition un media corner dans la loge (fond logotypé, éclairage, micro) pour vos prises de parole ou interviews partenaires ?</div>
+      <div class="options">
+        <label class="option"><span class="opt-circle"></span> Oui, on l'utiliserait</label>
+        <label class="option"><span class="opt-circle"></span> Peut-être</label>
+        <label class="option"><span class="opt-circle"></span> Non, pas nécessaire</label>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="q-meta">
+        <span class="q-num">15</span>
+        <span class="q-type-badge">Choix unique</span>
+      </div>
+      <div class="q-label">Vos partenaires seraient-ils intéressés par des workshops sur la Classe IMOCA organisés dans la loge ?</div>
+      <div class="options">
+        <label class="option"><span class="opt-circle"></span> Oui, clairement</label>
+        <label class="option"><span class="opt-circle"></span> Oui, selon le sujet</label>
+        <label class="option"><span class="opt-circle"></span> Non</label>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="q-meta">
+        <span class="q-num">16</span>
+        <span class="q-type-badge">Réponse libre</span>
+      </div>
+      <div class="q-label">Quels seraient vos besoins au quotidien dans la loge, au-delà des moments d'événements formels ?</div>
+      <textarea class="free-text" placeholder="Ex. : recharger son téléphone, déjeuner tranquille, préparer une présentation, faire signer un contrat..."></textarea>
+    </div>
+  </div>
+
+  <!-- BLOC 4 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-tag">Bloc 4</span>
+      <span class="section-title">Le départ</span>
+    </div>
+
+    <div class="card">
+      <div class="q-meta">
+        <span class="q-num">17</span>
+        <span class="q-type-badge">Choix unique</span>
+        <span class="q-required">Obligatoire</span>
+      </div>
+      <div class="q-label">Un événement IMOCA officiel pour le départ de la Route du Rhum vous intéresserait-il ?</div>
+      <div class="options">
+        <label class="option"><span class="opt-circle"></span> Oui, on y participerait</label>
+        <label class="option"><span class="opt-circle"></span> Non</label>
+        <label class="option"><span class="opt-circle"></span> J'ai déjà un événement de prévu — mais une collaboration est possible</label>
+        <label class="option"><span class="opt-circle"></span> J'ai déjà un événement de prévu — pas d'intérêt à ce stade</label>
+      </div>
+      <div class="conditional">
+        <div class="conditional-label">Précisions éventuelles sur votre programme départ :</div>
+        <textarea class="free-text" placeholder="Décrivez votre dispositif ou vos contraintes..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOC 5 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-tag">Bloc 5</span>
+      <span class="section-title">Pour finir</span>
+    </div>
+
+    <div class="card">
+      <div class="q-meta">
+        <span class="q-num">18</span>
+        <span class="q-type-badge">Réponse libre</span>
+      </div>
+      <div class="q-label">En une phrase, décrivez l'expérience hospitalité idéale que vous rêveriez d'offrir à un grand prospect grâce à la Classe IMOCA.</div>
+      <textarea class="free-text" style="min-height:90px;" placeholder="Votre réponse..."></textarea>
+    </div>
+
+    <div class="card">
+      <div class="q-meta">
+        <span class="q-num">19</span>
+        <span class="q-type-badge">Réponse libre</span>
+      </div>
+      <div class="q-label">Comment la Classe peut-elle mieux vous aider à accueillir vos partenaires, sur les villages comme au quotidien ?</div>
+      <textarea class="free-text" style="min-height:90px;" placeholder="Votre réponse..."></textarea>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-logo">IMOCA</div>
+    Merci pour vos réponses — elles nous aident à construire un dispositif vraiment utile pour vos équipes.<br>
+    Pour toute question : <a href="mailto:contact@imoca.org" style="color:#0b1729;">contact@imoca.org</a>
+  </div>
+
+</div>
+</body>
+</html>
